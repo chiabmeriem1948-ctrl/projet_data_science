@@ -11,7 +11,7 @@ fake = Faker()
 KAFKA_BROKER = "localhost:9092"
 TOPIC = "blood_pressure_fhir"
 
-# 5 patients fixes (comme ta camarade)
+# 5 patients fixes 
 PATIENT_IDS = ["PAT-001", "PAT-002", "PAT-003", "PAT-004", "PAT-005"]
 
 # 2 practitioners fixes (soignants)
@@ -76,5 +76,5 @@ if __name__ == "__main__":
         # On force l’envoi immédiat du batch
         producer.flush()
 
-        # Pause de 5 secondes (comme votre consigne)
+        # Pause de 5 secondes 
         time.sleep(5)

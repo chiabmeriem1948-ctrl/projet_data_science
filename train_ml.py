@@ -33,4 +33,4 @@ print(classification_report(y_test, pred))
 
 # 7) sauvegarde
 joblib.dump(model, "bp_logreg.joblib")
-print("✅ Modèle sauvegardé : bp_logreg.joblib")
+print(" Modèle sauvegardé : bp_logreg.joblib")

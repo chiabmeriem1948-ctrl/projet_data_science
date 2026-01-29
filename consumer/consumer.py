@@ -27,7 +27,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 # Connexion Elasticsearch
 es = Elasticsearch(ES_URL)
 
-# Charger le modèle ML entraîné (doit être à la racine du projet)
+# Charger le modèle ML entraîné 
 MODEL_PATH = "bp_logreg.joblib"
 model = joblib.load(MODEL_PATH)
 print(" Modèle ML chargé")
@@ -49,7 +49,7 @@ def extract_fields(obs: dict):
     patient_ref = obs.get("subject", {}).get("reference", "Patient/unknown")
     patient_id = patient_ref.split("/")[-1]
 
-    # practitioner (optionnel)
+    # practitioner 
     performer = obs.get("performer", [])
     if performer and isinstance(performer, list):
         prac_ref = performer[0].get("reference", "Practitioner/unknown")
@@ -154,7 +154,7 @@ def index_anomaly_in_es(obs: dict, patient_id: str, practitioner_id: str,
         "ml_prediction": ml_pred,      # 0/1
         "ml_risk_score": ml_risk,      # 0..1
 
-        # Temps (utile pour Kibana)
+        # Temps 
         "timestamp": timestamp,
         "@timestamp": timestamp,
 
@@ -179,7 +179,7 @@ if __name__ == "__main__":
         group_id="bp-consumer",
     )
 
-    print(" Consumer started (Ctrl+C pour arrêter)")
+    print(" Consumer started")
 
     for msg in consumer:
         obs = msg.value
