@@ -107,6 +107,19 @@ Dashboards réalisés :
 - Distribution des scores de risque ML
 - Évolution du risque ML au cours du temps
 
+
+##  Dashboards Kibana
+
+Les dashboards et visualisations Kibana sont fournis dans le dossier :
+
+kibana_exports/
+
+Pour les importer :
+1. Ouvrir Kibana (http://localhost:5601)
+2. Stack Management → Saved Objects
+3. Import
+4. Sélectionner le fichier `.ndjson`
+
 ---
 
 ##  Alertes Kibana
