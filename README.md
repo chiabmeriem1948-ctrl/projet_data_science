@@ -1,60 +1,133 @@
-# Système de surveillance de la pression artérielle  
-(Kafka + Elasticsearch + Kibana + Machine Learning)
+#  Système de surveillance de la pression artérielle  
+Kafka + Elasticsearch + Kibana + Machine Learning
 
-Ce projet met en place un pipeline de data engineering et data science en temps réel
-pour la surveillance de la pression artérielle à partir de données médicales au format FHIR.
-Il combine des règles cliniques simples et un modèle de machine learning afin de détecter
-des anomalies et d’estimer un score de risque.
+Projet de data engineering / data science mettant en place un pipeline temps réel de surveillance de la pression artérielle à partir de données simulées au format FHIR.
 
 ---
 
-## Objectifs du projet
-- Générer des données de pression artérielle en temps réel
-- Détecter automatiquement les anomalies (hypertension / hypotension)
-- Estimer un score de risque à l’aide d’un modèle de Machine Learning
+##  Objectifs du projet
+- Simuler un flux temps réel de données médicales (pression artérielle)
+- Détecter automatiquement des anomalies (hypertension / hypotension)
+- Estimer un score de risque via un modèle de Machine Learning
 - Visualiser les résultats dans Kibana
-- Mettre en place des alertes automatiques
-- Stocker les cas normaux localement
+- Mettre en place des alertes temps réel
 
 ---
 
-## Architecture du système
+##  Architecture du système
 
-1. **Producer (Python)**  
-   Génère des observations de pression artérielle (systolique / diastolique)
-   au format FHIR et les envoie dans Kafka.
+1. Producer (Python)  
+   Génère des données de pression artérielle au format FHIR et les envoie vers Kafka.
 
-2. **Kafka**  
-   Sert de système de messagerie pour le transport des données en temps réel.
+2. Kafka  
+   Sert de système de streaming pour transporter les données en temps réel.
 
-3. **Consumer (Python)**  
+3. Consumer (Python)  
    - Consomme les messages Kafka  
-   - Extrait les informations importantes (patient, valeurs, timestamp)  
-   - Détecte les anomalies à l’aide de seuils cliniques  
+   - Extrait les champs utiles (patient, systolique, diastolique, timestamp)  
+   - Détecte les anomalies avec des règles cliniques  
    - Calcule un score de risque ML (régression logistique)  
    - Indexe les anomalies dans Elasticsearch  
-   - Stocke les cas normaux localement au format JSON  
+   - Stocke les cas normaux en local (fichiers JSON)
 
-4. **Elasticsearch**  
-   Stocke les événements anormaux pour l’analyse et la visualisation.
+4. Elasticsearch  
+   Stockage et indexation des anomalies détectées.
 
-5. **Kibana**  
-   Permet la création de dashboards et d’alertes en temps réel.
-
----
-
-## Prérequis
-- Docker
-- Docker Compose
-- Python 3.10 ou plus
-- Navigateur web
+5. Kibana  
+   Visualisation des données, dashboards et alertes temps réel.
 
 ---
 
-## Installation et lancement du projet
+##  Technologies utilisées
+- Python 3
+- Kafka
+- Docker & Docker Compose
+- Elasticsearch
+- Kibana
+- Scikit-learn
+- Joblib
+- NumPy
 
-### 1. Cloner le dépôt
-```bash
-git clone https://github.com/chiabmeriem1948-ctrl/projet_data_science.git
-cd projet_data_science
+---
 
+##  Structure du projet
+
+projet_data_science/
+├── producer/
+│   └── producer.py
+├── consumer/
+│   ├── consumer.py
+│   └── data/
+│       └── normal_cases/
+├── train_ml.py
+├── docker-compose.yml
+├── .gitignore
+└── README.md
+
+---
+
+##  Lancement du projet
+
+### 1 Démarrer l’infrastructure
+docker compose up -d
+
+- Elasticsearch : http://localhost:9200  
+- Kibana : http://localhost:5601  
+
+---
+
+### 2 Installer les dépendances Python
+pip install kafka-python elasticsearch numpy scikit-learn joblib
+
+---
+
+### 3 Entraîner le modèle ML
+python train_ml.py
+
+---
+
+### 4 Lancer le consumer
+python consumer/consumer.py
+
+---
+
+### 5 Lancer le producer
+python producer/producer.py
+
+---
+
+##  Dashboards Kibana
+Accès :
+Kibana → Analytics → Dashboard
+
+Dashboards réalisés :
+- Répartition des types d’anomalies
+- Évolution temporelle des anomalies
+- Cas critiques récents
+- Distribution des scores de risque ML
+- Évolution du risque ML au cours du temps
+
+---
+
+##  Alertes Kibana
+Des règles d’alertes ont été créées pour :
+- Hypertension systolique
+- Hypertension diastolique
+- Cas critiques combinés
+- Pics anormaux d’événements
+
+Accès :
+Kibana → Stack Management → Rules
+
+---
+
+##  Stockage des cas normaux
+Les mesures normales sont stockées localement sous forme de fichiers JSON dans :
+consumer/data/normal_cases/
+
+Ces fichiers ne sont pas versionnés sur GitHub (présents dans le .gitignore).
+
+
+
+##  Conclusion
+Ce projet illustre une chaîne complète de data engineering et data science incluant ingestion temps réel, règles métiers, machine learning, visualisation et alerting.
