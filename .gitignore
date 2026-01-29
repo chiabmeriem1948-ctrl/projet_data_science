@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Données locales (on ne push pas tout)
+consumer/data/normal_cases/
+data/normal_cases/
+*.joblib
+
+# OS / éditeurs
+.DS_Store
+.vscode/
